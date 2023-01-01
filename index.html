@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        padding: 8px;
+      }
+
+      .item input[type="checkbox"] {
+        margin-right: 8px;
+      }
+
+      .item p {
+        flex: 1;
+        margin: 0;
+      }
+
+      .item p.strike {
+        text-decoration: line-through;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <form id="form">
+        <input type="text" id="item" placeholder="Add a new item" />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="items"></ul>
+    </div>
+
+    <script>
+      const form = document.getElementById('form');
+      const items = document.getElementById('items');
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const item = document.getElementById('item');
+        if (item.value) {
+          addItem(item.value);
+          item.value = '';
+        }
+      });
+
+      function addItem(text) {
+        const li = document.createElement('li');
+        li.className = 'item';
+        li.innerHTML = `
+          <input type="checkbox" />
+          <p>${text}</p>
+          <button>Remove</button>
+        `;
+        items.appendChild(li);
+
+        li.querySelector('input[type="checkbox"]').addEventListener('click', event => {
+          const p = li.querySelector('p');
+          p.classList.toggle('strike');
+        });
+
+        li.querySelector('button').addEventListener('click', event => {
+          items.removeChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
